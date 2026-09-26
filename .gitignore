@@ -1,0 +1,20 @@
+# Python and Jupyter
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# macOS
+.DS_Store
+
+# Data: raw data is downloaded by report/01, processed data is regenerated.
+# Commit the code that makes these, never the files (GitHub size limits, and
+# binary data bloats the history for everyone).
+data/raw/
+data/processed/
+
+# R / RStudio (the unit's workshops are in R)
+.Rhistory
+.RData
+.Rproj.user/

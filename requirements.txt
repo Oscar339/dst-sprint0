@@ -1,0 +1,9 @@
+# Python 3.13. Install into a virtual environment with:
+#   python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt
+numpy==2.5.3
+pandas==3.0.6
+matplotlib==3.11.2
+scipy==1.18.1
+scikit-learn==1.9.1
+jupyter
+ipykernel
