@@ -5,6 +5,8 @@ Formative Sprint 0 for [Data Science Toolbox](https://dsbristol.github.io/dst/)
 resources for doing data science in **<domain>**. Laid out after the unit's
 [example project](https://github.com/dsbristol/dst_example_project).
 
+Repository: https://github.com/Oscar339/dst-sprint0
+
 ## Project Group
 
 * Oscar Butler
