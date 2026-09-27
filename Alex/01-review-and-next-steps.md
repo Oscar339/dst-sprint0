@@ -12,7 +12,7 @@ The numbers in sections 2–4 come from my own quick check (method at the end).
 | `03-predictors` | `PAY_*` dominate mutual information; demographics ≈ 0; strong columns overlap | Six months of data is not six times the information |
 | `04-logistic` | Baseline AUC 0.72; `BILL_AMT` coefficients flip sign | Collinearity; categorical codes used as numbers |
 
-The work is careful and well documented. What's missing: an agreed scope (what exactly we predict, and when), an agreed metric, and any work on German Credit.
+The work is careful and well documented. What's missing: an agreed scope (what exactly we predict, and when), scoring, data smoothing.
 
 ## 2. Scope: predict default from 3 months in
 
