@@ -12,7 +12,7 @@ The numbers in sections 2–4 come from my own quick check (method at the end).
 | `03-predictors` | `PAY_*` dominate mutual information; demographics ≈ 0; strong columns overlap | Six months of data is not six times the information |
 | `04-logistic` | Baseline AUC 0.72; `BILL_AMT` coefficients flip sign | Collinearity; categorical codes used as numbers |
 
-The work is careful and well documented. What's missing: an agreed **scope** (what exactly we predict, and when), an agreed **metric**, and any work on German Credit.
+The work is careful and well documented. What's missing: an agreed scope (what exactly we predict, and when), an agreed metric, and any work on German Credit.
 
 ## 2. Scope: predict default from 3 months in
 
@@ -23,7 +23,7 @@ The data covers six months of behaviour (Apr–Sep 2005) and one outcome (defaul
 | Status | `PAY_6` | `PAY_5` | `PAY_4` | `PAY_3` | `PAY_2` | `PAY_0` | **default?** |
 | Bill / paid | `*_AMT6` | `*_AMT5` | `*_AMT4` | `*_AMT3` | `*_AMT2` | `*_AMT1` | |
 
-**Proposal:** using only the **first 3 months of observed behaviour** (Apr–Jun) plus the static columns, predict whether a customer **defaults in October 2005** (the dataset's label, `default payment next month`).
+**Proposal:** using only the first 3 months of observed behaviour (Apr–Jun) plus the static columns, predict whether a customer defaults in October 2005 (the dataset's label, `default payment next month`).
 
 **Why:** `PAY_0` is September's status. A customer already behind in September is effectively in default already, so a model leaning on it answers an easy question too late to act on. Predicting from 3 months in is the useful early-warning question.
 
@@ -37,12 +37,6 @@ The data covers six months of behaviour (Apr–Sep 2005) and one outcome (defaul
 
 - Predicting from 3 months in is noticeably harder. At the default 0.5 threshold, the model catches only **101 of 1,658** defaulters.
 - The latest 3 months score the same as all six, so the older months add nothing once the recent ones are known.
-
-**Wording must stay accurate:**
-- **The outcome is default in October 2005 only.** Avoid "default in general" or "default in any month". The gap between the features and the outcome is four months (Jul–Oct), and nothing is known about default after October.
-- **"First 3 months" means the first 3 *observed* months, not the first 3 months of the loan.** The data has no account-opening date, and most of these cards were already open before April.
-- **The dataset doesn't say how "default" was defined.** It isn't simply "seriously behind on payments": **91%** of customers labelled as defaulting in October were never 90+ days late in Jul–Sep (2.0% of customers are both, out of 22.1% labelled). Say so in the report.
-- **German Credit** has no time dimension, so this scope applies to Taiwan only. German stays an application-scoring comparison.
 
 ## 3. Collinearity: variance inflation factor (VIF)
 
