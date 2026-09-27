@@ -23,36 +23,25 @@ The data covers six months of behaviour (Apr–Sep 2005) and one outcome (defaul
 | Status | `PAY_6` | `PAY_5` | `PAY_4` | `PAY_3` | `PAY_2` | `PAY_0` | **default?** |
 | Bill / paid | `*_AMT6` | `*_AMT5` | `*_AMT4` | `*_AMT3` | `*_AMT2` | `*_AMT1` | |
 
-**Proposal:** using only the **first 3 months of observed behaviour** (Apr–Jun) plus the static columns, predict whether a customer **defaults at any point in the rest of the data window (Jul–Oct 2005)**.
+**Proposal:** using only the **first 3 months of observed behaviour** (Apr–Jun) plus the static columns, predict whether a customer **defaults in October 2005** (the dataset's label, `default payment next month`).
 
 **Why:** `PAY_0` is September's status. A customer already behind in September is effectively in default already, so a model leaning on it answers an easy question too late to act on. Predicting from 3 months in is the useful early-warning question.
 
-**Defining "default" (our definition, to state in the report).** The dataset's own label covers **October only**. So, for "any month" we define:
+**Results** (logistic regression, duplicates dropped, 75/25 stratified split, `random_state=0`, same test set for every row):
 
-> default = October label is 1, **or** 90+ days past due (`PAY` ≥ 3, the Basel definition) in Jul, Aug or Sep.
+| Features | AUC | Brier (always predict base rate: 0.172) | F1 (threshold 0.5) | F1 (threshold 0.22) |
+|---|---|---|---|---|
+| All 6 months | 0.720 | 0.145 | 0.35 | 0.47 |
+| **First 3 months (Apr–Jun)** | **0.652** | **0.160** | **0.11** | **0.41** |
+| Latest 3 months (Jul–Sep) | 0.720 | 0.145 | 0.34 | 0.47 |
 
-Customers already 90+ days past due in Apr–Jun (570) are excluded, because they defaulted before the prediction starts.
-
-**Results** (logistic regression, duplicates dropped, 75/25 stratified split, `random_state=0`):
-
-| Outcome | Features | Customers | Default rate | AUC | Brier (always predict base rate) |
-|---|---|---|---|---|---|
-| **Any month Jul–Oct (our definition)** | **Apr–Jun** | **29,395** | **22.1%** | **0.677** | **0.157** (0.172) |
-| October label only | Apr–Jun | 29,965 | 22.1% | 0.652 | 0.160 (0.172) |
-| October label only | all 6 months | 29,965 | 22.1% | 0.720 | 0.145 (0.172) |
-
-- Predicting from 3 months in is noticeably harder than using all six months. With the October label and a 0.5 threshold, the model catches only **101 of 1,658** defaulters.
-- The latest 3 months (Jul–Sep) score the same as all six (AUC 0.720). Older months add nothing once the recent ones are known.
+- Predicting from 3 months in is noticeably harder. At the default 0.5 threshold, the model catches only **101 of 1,658** defaulters.
+- The latest 3 months score the same as all six, so the older months add nothing once the recent ones are known.
 
 **Wording must stay accurate:**
-- **"Any month" means Jul–Oct 2005 only.** The data says nothing about default after October, so we can't claim to predict "default in general". Say *"default within the following four months"*.
-- **The two parts of the definition barely overlap.**
-  - 2.1% of customers are 90+ days late in Jul–Sep.
-  - 21.3% have the October label.
-  - Only 1.3% are both.
-
-  So the outcome is still mostly the October label. The dataset doesn't explain how that label is defined; say so. Using 60+ days (`PAY` ≥ 2) instead gives a 24.0% default rate and an AUC of 0.626, after excluding the 5,173 customers already 60+ days late by June.
+- **The outcome is default in October 2005 only.** Avoid "default in general" or "default in any month". The gap between the features and the outcome is four months (Jul–Oct), and nothing is known about default after October.
 - **"First 3 months" means the first 3 *observed* months, not the first 3 months of the loan.** The data has no account-opening date, and most of these cards were already open before April.
+- **The dataset doesn't say how "default" was defined.** It isn't simply "seriously behind on payments": **91%** of customers labelled as defaulting in October were never 90+ days late in Jul–Sep (2.0% of customers are both, out of 22.1% labelled). Say so in the report.
 - **German Credit** has no time dimension, so this scope applies to Taiwan only. German stays an application-scoring comparison.
 
 ## 3. Collinearity: variance inflation factor (VIF)
@@ -76,7 +65,7 @@ VIF_j = 1 / (1 − R_j²), where R_j² comes from regressing column j on all the
 
 | Measure | What it answers | Note |
 |---|---|---|
-| Confusion matrix, precision / recall / F1 | Does the model flag the right people at a given threshold? | Threshold-dependent. Choosing 0.22 instead of 0.5 raises F1 from 0.11 to 0.41 (Apr–Jun features, October label). |
+| Confusion matrix, precision / recall / F1 | Does the model flag the right people at a given threshold? | Threshold-dependent. Choosing 0.22 instead of 0.5 raises F1 from 0.11 to 0.41 (Apr–Jun). |
 | Brier score, log loss | Are the predicted probabilities right? | Proper scoring rules. Predicting 22% for everyone gives Brier 0.172, so report a **skill score** against that. |
 | Calibration curve | Does "20% risk" mean 20% of those customers default? | Banks need calibrated PDs (Basel). |
 | AUC / Gini, KS | Does the model rank risky customers above safe ones? | The industry standard, but it ignores calibration. |
@@ -149,9 +138,6 @@ Taiwan `.xls` from `data/raw/` (SHA-256 matches `data/README.md`), exact duplica
 static = ["LIMIT_BAL", "SEX", "EDUCATION", "MARRIAGE", "AGE"]
 month = {m: [f"PAY_{0 if m == 1 else m}", f"BILL_AMT{m}", f"PAY_AMT{m}"] for m in range(1, 7)}
 first3 = static + month[4] + month[5] + month[6]          # Apr–Jun
-already = (d[["PAY_4", "PAY_5", "PAY_6"]] >= 3).any(axis=1)   # 90+ days late by June: excluded
-s = d[~already]
-default_any = ((s[["PAY_3", "PAY_2", "PAY_0"]] >= 3).any(axis=1) | (s[Y] == 1)).astype(int)
 vif = pd.Series(np.diag(np.linalg.inv(np.corrcoef(X.values, rowvar=False))), index=X.columns)
 ```
 
