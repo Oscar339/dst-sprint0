@@ -82,19 +82,6 @@ Some categories have very few customers, so their default rates are unreliable:
 2. Build a person-month table, with customers who never have the event censored at September.
 3. Fit a logistic regression on that table. This is a standard discrete-time survival model.
 
-
----
-
-<details>
-<summary>How the numbers above were made</summary>
-
-Taiwan `.xls` from `data/raw/` (SHA-256 matches `data/README.md`), exact duplicates dropped (29,965 rows), 75/25 stratified split with `random_state=0` (the same as `Oscar/04-logistic`), `StandardScaler` + `LogisticRegression(max_iter=2000)`, all columns used as plain numbers. VIF = diagonal of the inverse of the correlation matrix of the 23 predictors.
-
-```python
-static = ["LIMIT_BAL", "SEX", "EDUCATION", "MARRIAGE", "AGE"]
-month = {m: [f"PAY_{0 if m == 1 else m}", f"BILL_AMT{m}", f"PAY_AMT{m}"] for m in range(1, 7)}
-first3 = static + month[4] + month[5] + month[6]          # Apr–Jun
-vif = pd.Series(np.diag(np.linalg.inv(np.corrcoef(X.values, rowvar=False))), index=X.columns)
 ```
 
 To be turned into a notebook in this folder.
