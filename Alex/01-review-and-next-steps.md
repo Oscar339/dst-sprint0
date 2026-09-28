@@ -23,9 +23,7 @@ The data covers six months of behaviour (Apr–Sep 2005) and one outcome (defaul
 | Status | `PAY_6` | `PAY_5` | `PAY_4` | `PAY_3` | `PAY_2` | `PAY_0` | **default?** |
 | Bill / paid | `*_AMT6` | `*_AMT5` | `*_AMT4` | `*_AMT3` | `*_AMT2` | `*_AMT1` | |
 
-**Proposal:** using only the first 3 months of observed behaviour (Apr–Jun) plus the static columns, predict whether a customer defaults in October 2005 (the dataset's label, `default payment next month`).
-
-**Why:** `PAY_0` is September's status. A customer already behind in September is effectively in default already, so a model leaning on it answers an easy question too late to act on. Predicting from 3 months in is the useful early-warning question.
+**Proposal:** use only the first 3 months of observed behaviour (Apr–Jun) to predict the outcome of default or not default. This should result in a more useful model rather than us predicting whether they will default or not the month before. A useful test could be to build one model containing all months and one containing only the first three months and compare.
 
 **Results** (logistic regression, duplicates dropped, 75/25 stratified split, `random_state=0`, same test set for every row):
 
