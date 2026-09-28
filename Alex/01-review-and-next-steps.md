@@ -25,16 +25,7 @@ The data covers six months of behaviour (Apr–Sep 2005) and one outcome (defaul
 
 **Proposal:** use only the first 3 months of observed behaviour (Apr–Jun) to predict the outcome of default or not default. This should result in a more useful model rather than us predicting whether they will default or not the month before. A useful test could be to build one model containing all months and one containing only the first three months and compare.
 
-**Results** (logistic regression, duplicates dropped, 75/25 stratified split, `random_state=0`, same test set for every row):
-
-| Features | AUC | Brier (always predict base rate: 0.172) | F1 (threshold 0.5) | F1 (threshold 0.22) |
-|---|---|---|---|---|
-| All 6 months | 0.720 | 0.145 | 0.35 | 0.47 |
-| **First 3 months (Apr–Jun)** | **0.652** | **0.160** | **0.11** | **0.41** |
-| Latest 3 months (Jul–Sep) | 0.720 | 0.145 | 0.34 | 0.47 |
-
-- Predicting from 3 months in is noticeably harder. At the default 0.5 threshold, the model catches only **101 of 1,658** defaulters.
-- The latest 3 months score the same as all six, so the older months add nothing once the recent ones are known.
+**Results:** We will end up with a less accurate model using only the first 3 months. We will assess how different our models are at the end.
 
 ## 3. Collinearity: variance inflation factor (VIF)
 
