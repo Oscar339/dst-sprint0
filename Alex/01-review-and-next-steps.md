@@ -23,34 +23,14 @@ The data covers six months of behaviour (Apr–Sep 2005) and one outcome (defaul
 | Status | `PAY_6` | `PAY_5` | `PAY_4` | `PAY_3` | `PAY_2` | `PAY_0` | **default?** |
 | Bill / paid | `*_AMT6` | `*_AMT5` | `*_AMT4` | `*_AMT3` | `*_AMT2` | `*_AMT1` | |
 
-**Proposal:** using only the first 3 months of observed behaviour (Apr–Jun) plus the static columns, predict whether a customer defaults in October 2005 (the dataset's label, `default payment next month`).
+**Proposal:** use only the first 3 months of observed behaviour (Apr–Jun) to predict the outcome of default or not default. This should result in a more useful model rather than us predicting whether they will default or not the month before. A useful test could be to build one model containing all months and one containing only the first three months and compare.
 
-**Why:** `PAY_0` is September's status. A customer already behind in September is effectively in default already, so a model leaning on it answers an easy question too late to act on. Predicting from 3 months in is the useful early-warning question.
-
-**Results** (logistic regression, duplicates dropped, 75/25 stratified split, `random_state=0`, same test set for every row):
-
-| Features | AUC | Brier (always predict base rate: 0.172) | F1 (threshold 0.5) | F1 (threshold 0.22) |
-|---|---|---|---|---|
-| All 6 months | 0.720 | 0.145 | 0.35 | 0.47 |
-| **First 3 months (Apr–Jun)** | **0.652** | **0.160** | **0.11** | **0.41** |
-| Latest 3 months (Jul–Sep) | 0.720 | 0.145 | 0.34 | 0.47 |
-
-- Predicting from 3 months in is noticeably harder. At the default 0.5 threshold, the model catches only **101 of 1,658** defaulters.
-- The latest 3 months score the same as all six, so the older months add nothing once the recent ones are known.
+**Results:** We will end up with a less accurate model using only the first 3 months. We will assess how different our models are at the end.
 
 ## 3. Collinearity: variance inflation factor (VIF)
 
-VIF_j = 1 / (1 − R_j²), where R_j² comes from regressing column j on all the others. Equivalently, VIF is the diagonal of the inverse correlation matrix. The usual rule of thumb: above 5 is a concern, above 10 is serious.
+VIF_j = 1 / (1 − R_j²), where (R_j^2) is obtained by regressing predictor (j) on all the other predictors. Equivalently, VIF is given by the diagonal elements of the inverse correlation matrix. As a rule of thumb, VIF values above 5 indicate potentially concerning multicollinearity, while values above 10 indicate severe multicollinearity. We can therefore use VIF to identify which predictors contain redundant information and assess whether individual predictors are contributing distinct information to the model.
 
-| Columns | VIF (all 23 columns) |
-|---|---|
-| `BILL_AMT1`–`6` | **14–26** |
-| `PAY_0`–`PAY_6` | 1.9–4.7 |
-| Everything else | below 2.3 |
-
-- These values explain the sign flips in `04-logistic`.
-- They stay high within the Apr–Jun scope (`BILL_AMT4`–`6`: 11–25).
-- **Fixes:** keep one bill month, or use summaries (mean bill, **utilisation** = bill / limit, payment / bill), or an L1/L2 penalty.
 - **Caveats:**
   - VIF affects how we *interpret* coefficients much more than predictive accuracy.
   - VIF on raw category codes (`EDUCATION`, `MARRIAGE`, `SEX`) is meaningless. After one-hot encoding, use the generalised VIF (GVIF).
@@ -59,16 +39,16 @@ VIF_j = 1 / (1 − R_j²), where R_j² comes from regressing column j on all the
 
 | Measure | What it answers | Note |
 |---|---|---|
-| Confusion matrix, precision / recall / F1 | Does the model flag the right people at a given threshold? | Threshold-dependent. Choosing 0.22 instead of 0.5 raises F1 from 0.11 to 0.41 (Apr–Jun). |
-| Brier score, log loss | Are the predicted probabilities right? | Proper scoring rules. Predicting 22% for everyone gives Brier 0.172, so report a **skill score** against that. |
-| Calibration curve | Does "20% risk" mean 20% of those customers default? | Banks need calibrated PDs (Basel). |
+| Confusion matrix, F1 | Does the model flag the right people at a given threshold? | Threshold-dependent.|
+| Brier score,log loss | Are the predicted probabilities right? | Proper scoring rules.|
+| Calibration curve | Does "20% risk" mean 20% of those customers default? | |
 | AUC / Gini, KS | Does the model rank risky customers above safe ones? | The industry standard, but it ignores calibration. |
-| Expected cost | What does a wrong decision cost? | German Credit has a published 5:1 cost matrix. |
+| Expected cost | What does a wrong decision cost? | German Credit has a published 5:1 cost matrix. Most of our work is done on Taiwan data. |
 
 **Suggestion:**
-- Headline metrics: Brier (skill) + AUC.
-- Also report a confusion matrix at a threshold chosen on **validation data, never the test set**.
-- This overlaps with Oscar's `04-Evaluation`, so agree it with him.
+- Headline metrics: Brier + AUC.
+- Also report a confusion matrix at a threshold chosen on validation data, never the test set.
+- This overlaps with Oscar's `04-Evaluation`.
 
 ## 5. Sparse categories: smoothing
 
@@ -87,11 +67,11 @@ Some categories have very few customers, so their default rates are unreliable:
   - `PAY` values of 3 or more into "3+".
 
   Scorecard binning (notebook 02) does this anyway.
-- Any target / WoE encoding must be fitted **inside** the training folds, or it leaks the label.
+- Any target / WoE encoding must be fitted inside the training folds, or it leaks the label.
 
 ## 6. Survival model
 
-**Idea:** model *when* a customer defaults, not just whether they do. This fits the "3 months in" scope well: condition on reaching month 3, then model the hazard after that.
+**Idea:** model loaners monthly. This fits the "3 months in" scope well: condition on reaching month 3, then model the hazard after that.
 
 **The data's limits:**
 - The true default label exists for one month only (October).
@@ -101,39 +81,3 @@ Some categories have very few customers, so their default rates are unreliable:
 1. Define a monthly event from `PAY_*`, e.g. "first month at 2 or more months behind".
 2. Build a person-month table, with customers who never have the event censored at September.
 3. Fit a logistic regression on that table. This is a standard discrete-time survival model.
-
-**Caveats:**
-- The event is *constructed* from status codes; it is not the real default label.
-- The accounts already existed before April (left truncation).
-
-This is probably Sprint 1 material. For Sprint 0, cite it as a resource:
-- Stepanova, M. & Thomas, L. C. (2002). Survival analysis methods for personal loan data. *Operations Research* 50(2).
-- Bellotti, T. & Crook, J. (2009). Credit scoring with macroeconomic variables using survival analysis. *JORS* 60(12).
-- `lifelines` (Python survival analysis library).
-
-## 7. Other things to settle
-
-- **Sprint 0 is a literature review.** It's due Wed 7 Oct, and group content locks **Mon 5 Oct, 12:00**. Most of sections 2–6 is Sprint 1 modelling. For Sprint 0, use it as evidence of what the resources do and don't cover (notebooks 04 and 05), and each of us still needs 4+ *run* resources in `RESOURCES.md`.
-- **Owners of `02-Scorecards` and `03-MachineLearning`** (me or Louis) aren't agreed yet.
-- **Undocumented codes:** decide what they mean and cite a source (merge into "other" / treat −2, −1, 0 as "not late").
-- **Near-duplicates with conflicting labels** (IDs 12431 / 12433 / 14295): drop them, keep them, or flag them? Decide and state it in the cleaning section.
-- **Class imbalance:** prefer threshold choice or class weights over resampling (SMOTE etc.), which distorts calibrated probabilities.
-- **`PLAN.md`** still says to load the data with `fetch_openml`, but notebook 01 loads the UCI files.
-- **German Credit** hasn't been touched yet.
-
----
-
-<details>
-<summary>How the numbers above were made</summary>
-
-Taiwan `.xls` from `data/raw/` (SHA-256 matches `data/README.md`), exact duplicates dropped (29,965 rows), 75/25 stratified split with `random_state=0` (the same as `Oscar/04-logistic`), `StandardScaler` + `LogisticRegression(max_iter=2000)`, all columns used as plain numbers. VIF = diagonal of the inverse of the correlation matrix of the 23 predictors.
-
-```python
-static = ["LIMIT_BAL", "SEX", "EDUCATION", "MARRIAGE", "AGE"]
-month = {m: [f"PAY_{0 if m == 1 else m}", f"BILL_AMT{m}", f"PAY_AMT{m}"] for m in range(1, 7)}
-first3 = static + month[4] + month[5] + month[6]          # Apr–Jun
-vif = pd.Series(np.diag(np.linalg.inv(np.corrcoef(X.values, rowvar=False))), index=X.columns)
-```
-
-To be turned into a notebook in this folder.
-</details>
