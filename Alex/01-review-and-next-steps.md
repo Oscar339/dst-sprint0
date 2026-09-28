@@ -81,5 +81,3 @@ Some categories have very few customers, so their default rates are unreliable:
 1. Define a monthly event from `PAY_*`, e.g. "first month at 2 or more months behind".
 2. Build a person-month table, with customers who never have the event censored at September.
 3. Fit a logistic regression on that table. This is a standard discrete-time survival model.
-
-```
