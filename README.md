@@ -42,6 +42,10 @@ pip install -r requirements.txt
 Data is downloaded by `report/01-Introduction.ipynb` into `data/raw/` (not
 committed). Any manual step is stated in the notebook where it happens.
 
+**Taiwan data: use the cleaned version.** Run `Oscar/05-cleaning.ipynb` to make
+`data/processed/taiwan-clean.csv`, and load that instead of the raw `.xls`. See
+`data/README.md` for what was changed.
+
 ## Evidence
 
 Each member's working, including dead ends, is in their own folder:
