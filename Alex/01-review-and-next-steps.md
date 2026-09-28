@@ -83,6 +83,3 @@ Some categories have very few customers, so their default rates are unreliable:
 3. Fit a logistic regression on that table. This is a standard discrete-time survival model.
 
 ```
-
-To be turned into a notebook in this folder.
-</details>
