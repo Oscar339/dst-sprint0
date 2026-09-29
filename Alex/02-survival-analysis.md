@@ -89,10 +89,6 @@ $$h(t \mid x) = h_0(t)\, \exp(\beta^\top x).$$
 Our data is monthly, so time is discrete. The discrete-time hazard model fits
 this directly (Allison, 1982; Singer & Willett, 1993; Tutz & Schmid, 2016):
 
-$$\operatorname{logit} h(t \mid x_{t}) = \alpha_t + \beta^\top x_{t}.$$
-
-- $\alpha_t$ is one intercept per month: the baseline hazard, left free.
-- $x_t$ can change from month to month (time-varying covariates).
 - **Estimation is ordinary logistic regression** on a *person-period* table
   (one row per customer per month at risk). Allison (1982) shows the
   likelihood factorises this way, so standard software gives valid
