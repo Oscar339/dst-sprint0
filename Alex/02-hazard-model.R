@@ -42,7 +42,7 @@
 #     * tBrier: nobody is censored before October, so their IPCW weights are all 1 and the
 #       score reduces to a plain mean squared error at each month.
 #
-# -- DEFINITIONS (ours; state these in the report):
+# -- DEFINITIONS:
 #   * Month t: Apr=1, May=2, Jun=3 | Jul=4, Aug=5, Sep=6, Oct=7.
 #   * Event ("default"): first month with repayment status PAY >= sDefThresh months behind
 #     (Jul, Aug or Sep), or the dataset's label "default payment next month" = 1 (Oct).
