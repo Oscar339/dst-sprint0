@@ -1,4 +1,4 @@
-"""Discrete-time hazard model: Taiwan credit-card default (Python translation of 02-hazard-model.R).
+"""Discrete-time hazard model: Taiwan credit-card default (Python translation of 02-hazard-model.R - translated by Claude for the sake of the project all being in python.).
 
 Using only the first 3 observed months (Apr-Jun 2005), predict the probability of first default in
 each later month (Jul-Oct 2005). This is a line-by-line translation of `02-hazard-model.R`, which in
