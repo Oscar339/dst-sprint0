@@ -2,8 +2,8 @@
 
 ## 1. Why survival analysis for credit
 
-A standard credit model asks **whether** a borrower defaults within a fixed
-window. Survival analysis asks **when**. Banasik, Crook & Thomas (1999) made
+A standard credit model asks whether a borrower defaults within a fixed
+window. Survival analysis asks when. Banasik, Crook & Thomas (1999) made
 this case for credit scoring directly, in a paper titled *Not if but when will
 borrowers default*. Modelling time to default:
 
