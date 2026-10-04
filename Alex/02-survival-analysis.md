@@ -1,14 +1,9 @@
 # Survival analysis: literature review — Alex
 
-29 Sep 2026. Background for the survival-model idea in section 6 of
-[`01-review-and-next-steps.md`](01-review-and-next-steps.md). This is a
-literature review: nothing here has been run on our data. The build itself is
-Sprint 1 material (see `Oscar/06-07-plan.md`).
-
 ## 1. Why survival analysis for credit
 
-A standard credit model asks **whether** a borrower defaults within a fixed
-window. Survival analysis asks **when**. Banasik, Crook & Thomas (1999) made
+A standard credit model asks whether a borrower defaults within a fixed
+window. Survival analysis asks when. Banasik, Crook & Thomas (1999) made
 this case for credit scoring directly, in a paper titled *Not if but when will
 borrowers default*. Modelling time to default:
 
@@ -114,9 +109,6 @@ probability estimates, while the hazard model does not. Bellotti & Crook
 | Dirick, Claeskens & Baesens (2017) | 10 credit datasets (Belgium, UK) | AFT, Cox, Cox with splines, mixture cure models | Benchmark: spline-based methods and the single-event mixture cure model perform well |
 | Botha, Verster & Scheepers (2025) | Loan data | Recurrent-event Cox models (Andersen–Gill, PWP) | Tutorial with a codebase; models customers who default more than once |
 
-Bellotti & Crook (2013) is the closest published model to what we would build:
-discrete time, credit cards, monthly behavioural covariates.
-
 ## 7. How this would apply to our data
 
 **What we have** (Taiwan data, cleaned in `Oscar/05-cleaning`): six months of
@@ -132,11 +124,6 @@ Months become time steps:
 |---|---|---|---|---|---|---|---|
 | $t$ | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
 | Status | `PAY_6` | `PAY_5` | `PAY_4` | `PAY_3` | `PAY_2` | `PAY_1` | default label |
-
-Time 0 is the start of the data, **not** the account's opening date. Every
-customer entered before April, so this is calendar time with delayed entry
-(left truncation, section 2). With no account age we cannot correct for it,
-so we state it as a limitation.
 
 ### Step 1: define the event
 
