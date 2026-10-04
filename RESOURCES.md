@@ -136,4 +136,30 @@ Report notebooks: `report/01-Introduction` (cleaning), `report/02-YehLien`,
 
 ## Alex
 
+Working in `Alex/`: review (`01`), survival-analysis literature review
+(`02-survival-analysis.md`), hazard model (`02-hazard-model.*`).
+
+### Run, reproduced or adapted
+
+1. **Botha, A. & Muller, M. (2025).** *Approaches for modelling the
+   term-structure of default risk under IFRS 9: A tutorial using discrete-time
+   survival analysis* [source code], v1.0.
+   https://doi.org/10.5281/zenodo.15856389 ·
+   https://github.com/arnobotha/Term-Structure-Modelling-RetailMortgages
+   · repo · R · MIT licence · accompanies Botha, A. & Verster, T. (2025),
+   arXiv:2507.15441
+   · Discrete-time hazard models (weighted logistic regression on person-month
+   data) for lifetime default risk on SA mortgages, with Kaplan–Meier
+   term-structures and time-dependent Brier scores.
+   · Their data isn't public, so the scripts can't be run as published.
+     **Adapted** their basic model (scripts 3b, 5b(ii), 0a, 6c, 0e) to the
+     Taiwan data in R (`Alex/02-hazard-model.R`): first 3 months as covariates,
+     predicting first default in Jul–Oct.
+   · **Translated** it to Python (`Alex/02-hazard-model.py`); both print
+     identical results.
+   · Their ×10 default weight mis-calibrated our data (term-structure MAE 0.150
+     vs 0.004 with ×1), so we used ×1.
+   · On the October label: AUC 0.613, against 0.632 for a plain logistic
+     regression with the same covariates (`Alex/02-hazard-model.md`).
+
 ## Louis
