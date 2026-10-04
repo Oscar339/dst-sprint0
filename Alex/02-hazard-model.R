@@ -53,7 +53,6 @@
 #   * Test set: the same 20% of customers as Oscar/07 (IDs in Alex/test-ids-oscar07.csv),
 #     restricted to those at risk. Everyone else at risk is used for fitting.
 #
-# -- Run from the repository root or from Alex/, after report/01 has made the cleaned data.
 #    R packages: data.table, survival, sandwich, lmtest, pROC, ggplot2
 # =============================================================================================
 
