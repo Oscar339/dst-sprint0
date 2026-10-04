@@ -51,7 +51,7 @@ f(t) is the probability of a first default in that month. The model's f(t) is av
   - On the October label: AUC 0.642 for the hazard model against 0.644 for logistic regression.
   - Jul–Sep events become rare (0.4–0.8% a month), so October dominates.
 
-## Caveats (for the report)
+## Caveats
 
 - **The event changes definition in October.** Jul–Sep events use payment status; October uses the dataset's own label. Part of the October jump is this change, not a real rise in risk.
 - **Excluding customers with an event in Apr–Jun removes the riskiest 17%** (5,173 people) at threshold 2. Results only apply to customers who were not 2+ months behind by June.
