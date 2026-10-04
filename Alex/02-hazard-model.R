@@ -6,7 +6,7 @@
 # PROJECT: Data Science Toolbox, Sprint 0 (MATHM0029, University of Bristol, 2026-27)
 # AUTHOR:  Alex (adapted code; see below). Python translation: 02-hazard-model.py
 # ---------------------------------------------------------------------------------------------
-# -- ADAPTED FROM (MIT licence, copyright (c) 2023 Dr Arno Botha):
+# ADAPTED FROM (MIT licence, copyright (c) 2023 Dr Arno Botha):
 #   Botha, A. & Muller, M. (2025). Approaches for modelling the term-structure of default risk
 #     under IFRS 9: A tutorial using discrete-time survival analysis [source code], v1.0.
 #     https://doi.org/10.5281/zenodo.15856389
@@ -70,7 +70,7 @@ cat("Event threshold: PAY >=", sDefThresh, "months behind\n")
 
 
 
-# ------ 1. Load the cleaned data and the test split
+# 1. Load the cleaned data and the test split
 
 dat <- fread(file.path(root, "data", "processed", "taiwan-clean.csv"))
 setnames(dat, "default payment next month", "DefaultOct")
@@ -79,7 +79,7 @@ cat("customers (cleaned):", nrow(dat), "\n")
 
 
 
-# ------ 2. Scope: at-risk population and covariates frozen at month 3 (June)
+# 2. Scope: at-risk population and covariates frozen at month 3 (June)
 
 # - Exclude customers with an event in the first 3 months (step 2)
 dat <- dat[!(PAY_6 >= sDefThresh | PAY_5 >= sDefThresh | PAY_4 >= sDefThresh)]
@@ -98,7 +98,7 @@ print(dat[, .N, by = Sample])
 
 
 
-# ------ 3. Person-month data (step 4: one row per customer per month at risk)
+# 3. Person-month data (step 4: one row per customer per month at risk)
 
 # - Event indicator for each month of the prediction window
 evt <- dat[, c("ID", "Sample", covars, "DefaultOct"), with = FALSE]
@@ -128,7 +128,7 @@ train <- pm[Sample == "train"]; test <- pm[Sample == "test"]
 
 
 
-# ------ 4. Basic discrete-time hazard model (after 5b(ii); step 5)
+# 4. Basic discrete-time hazard model (after 5b(ii); step 5)
 
 vars_basic <- c("-1", "Time_Binned", covars)
 form <- as.formula(paste("PerfSpell_Event ~", paste(vars_basic, collapse = " + ")))
@@ -142,7 +142,7 @@ for (w in c(1, 10)) {                          # their weight was 10; test it ag
 
 
 
-# ------ 5. evalLR (after 0a): AIC, McFadden R^2 (train), AUC (test person-months)
+# 5. evalLR (after 0a): AIC, McFadden R^2 (train), AUC (test person-months)
 
 evalLR <- function(model, model_base, datGiven, targetFld = "PerfSpell_Event") {
   pred <- predict(model, newdata = datGiven, type = "response")
@@ -154,7 +154,7 @@ for (k in names(fits)) { cat("\n", k, "\n"); print(evalLR(fits[[k]], modLR_base,
 
 
 
-# ------ 6. Term-structure: Kaplan-Meier (empirical) vs model-expected (after 6c)
+# 6. Term-structure: Kaplan-Meier (empirical) vs model-expected (after 6c)
 
 # - Empirical f(t) on test customers
 cust_te <- evt[Sample == "test"]
@@ -190,7 +190,7 @@ cat("Better calibrated (kept):", best, "\n")
 # - Robust (HC0, sandwich) standard errors for the kept model, as in 5b(ii)
 cat("\nKept model, robust SEs:\n"); print(coeftest(modLR_basic, vcov. = vcovHC(modLR_basic, type = "HC0")))
 
-# - Graph
+# Graph
 gdat <- rbind(res[, .(Month, f = f_emp, Series = "Empirical (Kaplan-Meier)")],
               res[, .(Month, f = get(paste0("f_", best)), Series = paste0("Expected, DtH model (", best, ")"))])
 p <- ggplot(gdat, aes(Month, f, colour = Series)) + geom_line(linewidth = 0.9) + geom_point(size = 2) +
