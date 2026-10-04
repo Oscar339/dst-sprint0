@@ -3,9 +3,6 @@
 # default in each later month (Jul-Oct 2005) with a discrete-time hazard (DtH) model.
 # Implements steps 0-2, 4, 5, 7 and 8 of 02-survival-analysis.md, section 7.
 # ---------------------------------------------------------------------------------------------
-# PROJECT: Data Science Toolbox, Sprint 0 (MATHM0029, University of Bristol, 2026-27)
-# AUTHOR:  Alex. Python translation: 02-hazard-model.py
-# ---------------------------------------------------------------------------------------------
 # ADAPTED FROM (MIT licence, copyright (c) 2023 Dr Arno Botha):
 #   Botha, A. & Muller, M. (2025). Approaches for modelling the term-structure of default risk
 #     under IFRS 9: A tutorial using discrete-time survival analysis [source code], v1.0.
