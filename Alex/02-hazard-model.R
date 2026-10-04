@@ -25,7 +25,7 @@
 #     0e.FunkySurv_tBrierScore.R        time-dependent Brier score and IBS (sec 7, simplified)
 #
 #   What we changed for our data, and why:
-#     * Data: their South African mortgage panel (not public) -> UCI Taiwan credit-card data,
+#     * Data: their South African mortgage panel (not public) -> Taiwan credit-card data,
 #       as cleaned by report/01 (data/processed/taiwan-clean.csv).
 #     * Spells: theirs are recurrent performing spells (PWP). Ours is ONE spell per customer,
 #       from month 4 (Jul) to month 7 (Oct), so the recurrency term
