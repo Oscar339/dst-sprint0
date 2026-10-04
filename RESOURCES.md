@@ -152,13 +152,17 @@ Working in `Alex/`: review (`01`), survival-analysis literature review
    data) for lifetime default risk on SA mortgages, with Kaplan–Meier
    term-structures and time-dependent Brier scores.
    · Their data isn't public, so the scripts can't be run as published.
-     **Adapted** their basic model (scripts 3b, 5b(ii), 0a, 6c, 0e) to the
-     Taiwan data in R (`Alex/02-hazard-model.R`): first 3 months as covariates,
+     **Reused** their functions unchanged (`evalLR`, `coefDeter_glm`,
+     `aicTable`, `concTable`, `tBrierScore`) and followed their scripts 5b(ii),
+     6c and 6d line by line on the Taiwan data (`Alex/02-hazard-model.R`; 77%
+     of its code lines are identical to theirs): first 3 months as covariates,
      predicting first default in Jul–Oct.
    · **Translated** it to Python (`Alex/02-hazard-model.py`); both print
      identical results.
-   · Their ×10 default weight mis-calibrated our data (term-structure MAE 0.150
-     vs 0.004 with ×1), so we used ×1.
+   · Their ×10 default weight mis-calibrated our data (term-structure MAE
+     14.96% vs 0.16% with ×1), so we used ×1. Their `tBrierScore()` breaks in
+     the last month, when everyone is censored at once, so it is limited to
+     months 1–3.
    · On the October label: AUC 0.613, against 0.632 for a plain logistic
      regression with the same covariates (`Alex/02-hazard-model.md`).
 
