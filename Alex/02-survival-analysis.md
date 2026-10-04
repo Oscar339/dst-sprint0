@@ -1,10 +1,5 @@
 # Survival analysis: literature review — Alex
 
-29 Sep 2026. Background for the survival-model idea in section 6 of
-[`01-review-and-next-steps.md`](01-review-and-next-steps.md). This is a
-literature review: nothing here has been run on our data. The build itself is
-Sprint 1 material (see `Oscar/06-07-plan.md`).
-
 ## 1. Why survival analysis for credit
 
 A standard credit model asks **whether** a borrower defaults within a fixed
