@@ -18,3 +18,7 @@ data/processed/
 .Rhistory
 .RData
 .Rproj.user/
+
+# Other units' lecture notes: kept locally for reading, cited in the report,
+# never published (the repo is public and the notes aren't ours to share).
+Oscar/references/
