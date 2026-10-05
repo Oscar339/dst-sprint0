@@ -19,28 +19,7 @@ The R script needs: data.table, dplyr, survival, survminer, scales, RColorBrewer
 
 **Source:** Botha, A. & Muller, M. (2025). *Approaches for modelling the term-structure of default risk under IFRS 9: A tutorial using discrete-time survival analysis* [source code], v1.0. [doi:10.5281/zenodo.15856389](https://doi.org/10.5281/zenodo.15856389) · [GitHub](https://github.com/arnobotha/Term-Structure-Modelling-RetailMortgages) · MIT licence. Paper: Botha, A. & Verster, T. (2025), [arXiv:2507.15441](https://arxiv.org/abs/2507.15441).
 
-## How close it is to their code
 
-Measured line by line against their scripts, ignoring comments and whitespace: **77% of our R code lines are identical to theirs** (275 of 357), 7% are adapted, and 16% are new.
-
-| Section | From | Identical or adapted |
-|---|---|---|
-| Functions file | 0a, 0b, 0e | 100% identical |
-| Model fit and diagnostics | 5b(ii) | 79% |
-| Kaplan–Meier and expected term-structure | 6c | 94–95% |
-| Graph | 6c | 92% |
-| Time-dependent Brier | 6d | 71% |
-| Data preparation (Taiwan data → their structure) | ours | 36% |
-| Scoring on the October label | ours | 25% |
-
-Every changed line in sections 2–4 is marked `# CHANGED:` with the reason:
-- Our covariates replace their arrears, interest-rate, inflation and recurrency terms.
-- Default weight 1 instead of 10.
-- No advanced model.
-- Spline smoothing removed.
-- Axis ranges resized.
-- A missing censoring probability filled with 1.
-- `spellPeriodMax = 3` in `tBrierScore()`.
 
 ## Set-up
 
