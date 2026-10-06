@@ -1,4 +1,4 @@
-# ================== DISCRETE-TIME HAZARD MODEL: Taiwan credit-card default ==================
+# ================== DISCRETE-TIME HAZARD MODEL: Taiwan credit-card default by Alex, Claude used (AI) to aid R coding ==================
 # Using only the first 3 observed months (Apr-Jun 2005), predict the probability of first
 # default in each later month (Jul-Oct 2005) with a discrete-time hazard (DtH) model.
 # Implements steps 0-2, 4, 5, 7 and 8 of 02-survival-analysis.md, section 7.
