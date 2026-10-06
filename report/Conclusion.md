@@ -15,7 +15,7 @@ We considered various approaches to modelling probability of default. Firstly, w
 
 - How approaches compare. A model can rank customers well and still give poor probabilities, so each needs its own checks. Logistic regression ranked well but its probabilities were S-shaped. Isotonic calibration fixed them without changing the ranking. The hazard model adds the timing of default, which neither of the other approaches gives.
 - Whether generic resources apply. Yes, with changes. The scikit-learn example ran exactly as published, but on credit data we had to calibrate with a held-out set and group customers into equal-size bins
-- How sharing code helps or limits. Published code was much easier to reproduce than a paper without it. We matched Yeh & Lien's logistic regression from the text, but could not match their naive Bayes, which came out well below logistic regression in scikit-learn's version, so this remains open. Even with code, Botha & Muller's functions only worked after we rebuilt our data into their structure and changed their default settings.
+- How sharing code helps or limits. Published code was much easier to reproduce than a paper without it. We matched Yeh & Lien's logistic regression from the text, but could not match their naive Bayes, which came out well below logistic regression in scikit-learn's version. Even with code, Botha & Muller's functions only worked after we rebuilt our data into their structure and changed their default settings.
 
 ## Limits
 
