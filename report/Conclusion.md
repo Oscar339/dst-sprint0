@@ -10,23 +10,17 @@ We considered various approaches to modelling probability of default. Firstly, w
 | 04 | Because our data is monthly, a discrete-time hazard model is the natural fit.|
 | 05 | The imported code needed our data put into their structure and their default weight changed from 10 to 1. The model gives P(default by October) for customers with no default by June. |
 
-## Themes
+## What the resources tell us
 
-- Ranking is not probability. The papers and examples we used mostly judge
-  models by how well they rank customers. For managing risk the probability
-  matters, and it needs its own checks (calibration curves, Brier score).
-- Reproducing a result takes more than its method name. The paper's naive
-  Bayes and the paper's data size could not be matched from the text alone.
-  Published code (03, 05) was far easier to reproduce than a paper without code
-  (02).
-- Code has to be adapted, not just run. Every resource needed changes for
-  our data, and we marked each one.
+- How approaches compare. A model can rank customers well and still give poor probabilities, so each needs its own checks. Logistic regression ranked well but its probabilities were S-shaped. Isotonic calibration fixed them without changing the ranking. The hazard model adds the timing of default, which neither of the other approaches gives.
+- Whether generic resources apply. Yes, with changes. The scikit-learn example ran exactly as published, but on credit data we had to calibrate with a held-out set and group customers into equal-size bins
+- How sharing code helps or limits. Published code was much easier to reproduce than a paper without it. We matched Yeh & Lien's logistic regression from the text, but could not match their naive Bayes, which came out well below logistic regression in scikit-learn's version, so this remains open. Even with code, Botha & Muller's functions only worked after we rebuilt our data into their structure and changed their default settings.
 
 ## Limits
 
 The data covers only seven months, has no account age and no true default date,
 so the survival event is a proxy built from repayment status (04). The Taiwan
-file is also from 2005 and a single bank, so conclusions may not carry to other
+file is also from 2005 and a single dataset, so conclusions may not carry to other
 lenders. This data limit leads to complications of overfitting etc such that in 
 the future we will test various different models with various parameters to try 
 and optimise our model
