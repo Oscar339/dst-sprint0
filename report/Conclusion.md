@@ -7,8 +7,8 @@ We considered various approaches to modelling probability of default. Firstly, w
 | 01 | The file differs from its documentation in 5 places (e.g. undocumented `PAY_*` codes -2 and 0, which behave as "not behind"). |
 | 02 | The logistic regression reproduces the paper's ranking but its probabilities are S-shaped, which the paper's straight-line summary hides. |
 | 03 | Calibration fixes the logistic regression's probabilities without changing its ranking. |
-| 04 | A discrete-time hazard model fits our monthly data well.|
-| 05 | Actual code relevant and useful to our project, needed changing a little to fit our data and our project goals. |
+| 04 | Because our data is monthly, a discrete-time hazard model is the natural fit.|
+| 05 | The imported code needed our data put into their structure and their default weight changed from 10 to 1. The model gives P(default by October) for customers with no default by June. |
 
 ## Themes
 
