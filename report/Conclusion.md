@@ -12,14 +12,14 @@ We considered various approaches to modelling probability of default. Firstly, w
 
 ## Themes
 
-- **Ranking is not probability.** The papers and examples we used mostly judge
+- Ranking is not probability. The papers and examples we used mostly judge
   models by how well they rank customers. For managing risk the probability
   matters, and it needs its own checks (calibration curves, Brier score).
-- **Reproducing a result takes more than its method name.** The paper's naive
+- Reproducing a result takes more than its method name. The paper's naive
   Bayes and the paper's data size could not be matched from the text alone.
   Published code (03, 05) was far easier to reproduce than a paper without code
   (02).
-- **Code has to be adapted, not just run.** Every resource needed changes for
+- Code has to be adapted, not just run. Every resource needed changes for
   our data, and we marked each one.
 
 ## Limits
