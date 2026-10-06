@@ -485,7 +485,7 @@ tBrierScore <- function(datGiven, modGiven, predType="response", spellPeriodMax=
 # ================== DISCRETE-TIME HAZARD MODEL: Taiwan credit-card default ==================
 # Using only the first 3 observed months (Apr-Jun 2005), predict the probability of first
 # default in each later month (Jul-Oct 2005) with a discrete-time hazard (DtH) model.
-# Implements steps 0-2, 4, 5, 7 and 8 of 02-survival-analysis.md, section 7.
+# Implements steps 0-2, 4, 5, 7 and 8 of 02-survival-analysis.md, section 7. Claude used to help transfer code from literature review to applicable code.
 # ---------------------------------------------------------------------------------------------
 # ADAPTED FROM (MIT licence, copyright (c) 2023 Dr Arno Botha):
 #   Botha, A. & Muller, M. (2025). Approaches for modelling the term-structure of default risk
