@@ -1,6 +1,6 @@
 # Conclusion: Credit Risk
 
-We considered various approaches to modelling probability of default. Firstly, we cleaned the data, we looked for duplicates as well as 
+We considered various approaches to modelling probability of default. Firstly, we cleaned the data, we looked for duplicates as well as checking the file against its own documentation. 
 
 | Notebook | Resource | What it gave us | What we found |
 |---|---|---|---|
