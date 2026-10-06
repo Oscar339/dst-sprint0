@@ -27,7 +27,9 @@ We considered various approaches to modelling probability of default. Firstly, w
 The data covers only seven months, has no account age and no true default date,
 so the survival event is a proxy built from repayment status (04). The Taiwan
 file is also from 2005 and a single bank, so conclusions may not carry to other
-lenders.
+lenders. This data limit leads to complications of overfitting etc such that in 
+the future we will test various different models with various parameters to try 
+and optimise our model
 
 ## Outcome
 
