@@ -10,6 +10,7 @@ We considered various approaches to modelling probability of default. Firstly, w
 | 03 | Calibration fixes the logistic regression's probabilities without changing its ranking. |
 | 04 | Because our data is monthly, a discrete-time hazard model is the natural fit.|
 | 05 | The imported code needed our data put into their structure and their default weight changed from 10 to 1. The model gives P(default by October) for customers with no default by June. |
+| 08 | Research and application of a Markov model to estimate probability of default. |
 
 ## What the resources tell us
 
@@ -32,4 +33,4 @@ going straight from on time to defaulted, really behave.
 
 ## Outcome
 
-Overall, no single approach was best, as each answered a different question. The logistic regression was good at ranking customers from riskiest to safest, but the probabilities it gave were not reliable, and calibrating them fixed this without changing the ranking. The Markov chain showed how customers move between repayment states from month to month, [add Louis's main finding, e.g. how often customers who fall one month behind go on to default]. The hazard model predicted when a customer is likely to default and is closely related to the Markov model as as both model how customers move towards default over time, but the Markov chain uses repayment status as the state, while the hazard model uses the month and the customer's characteristics.
+Overall, no single approach was best, as each answered a different question. The logistic regression was good at ranking customers from riskiest to safest, but the probabilities it gave were not reliable, and calibrating them fixed this without changing the ranking. The Markov chain showed how customers move between repayment states from month to month, . The hazard model predicted when a customer is likely to default and is closely related to the Markov model as as both model how customers move towards default over time, but the Markov chain uses repayment status as the state, while the hazard model uses the month and the customer's characteristics.
