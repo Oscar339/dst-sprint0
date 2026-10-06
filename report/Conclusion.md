@@ -1,6 +1,6 @@
 # Conclusion: Credit Risk
 
-We considered various approaches to modelling probability of default. Firstly, we cleaned the data, we looked for duplicates as well as checking the file against its own documentation. 
+We considered various approaches to modelling probability of default. Firstly, we cleaned the data, we looked for duplicates as well as checking the file's documentation. We then found 3 different types of model that could be used to model this dataset with our goal in mind: a logistic regression model, a hazard model and a Markov model. These various models all have their pros and cons and these have been explored in each area of this project.
 
 | Notebook | Resource | What it gave us | What we found |
 |---|---|---|---|
