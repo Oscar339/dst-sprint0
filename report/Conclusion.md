@@ -28,3 +28,7 @@ The data covers only seven months, has no account age and no true default date,
 so the survival event is a proxy built from repayment status (04). The Taiwan
 file is also from 2005 and a single bank, so conclusions may not carry to other
 lenders.
+
+## Outcome
+
+From our initial research, with the data that we have chosen to use, logistic regression and survival modelling seem to be the most appropriate models. Data processing will be something that we have to do before any modelling step and is covered by Oscar. 
