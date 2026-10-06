@@ -1,8 +1,6 @@
-# Conclusion: what the literature gave us
+# Conclusion: Credit Risk
 
-Our domain is credit default risk. We reviewed five resources, ran or rebuilt
-the code in each, and used each to ask a different question of the same Taiwan
-credit-card data (Yeh, 2009).
+We considered various approaches to modelling probability of default. Firstly, we cleaned the data, we looked for duplicates as well as 
 
 | Notebook | Resource | What it gave us | What we found |
 |---|---|---|---|
