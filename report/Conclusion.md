@@ -2,13 +2,13 @@
 
 We considered various approaches to modelling probability of default. Firstly, we cleaned the data, we looked for duplicates as well as checking the file's documentation. We then found 3 different types of model that could be used to model this dataset with our goal in mind: a logistic regression model, a hazard model and a Markov model. These various models all have their pros and cons and these have been explored in each area of this project.
 
-| Notebook | Resource | What it gave us | What we found |
-|---|---|---|---|
-| 01 | UCI dataset page and Yeh & Lien (2009) | The data and its documentation | The file differs from its documentation in 5 places (e.g. undocumented `PAY_*` codes -2 and 0, which behave as "not behind"). Cleaning came first. |
-| 02 | Yeh & Lien (2009) | A published benchmark for six classifiers | The logistic regression reproduces the paper's ranking (area ratio 0.44, mean of 20 splits) but its probabilities are S-shaped, which the paper's straight-line summary hides. |
-| 03 | scikit-learn calibration example (Niculescu-Mizil & Caruana, 2005; Platt, 1999; Zadrozny & Elkan, 2002) | Runnable code to fix probabilities | Isotonic calibration fixes the logistic regression's probabilities without changing its ranking. Sigmoid does not, and we could not reproduce the paper's naive Bayes. |
-| 04 | Survival analysis literature (Banasik, Crook & Thomas, 1999; Shumway, 2001; Bellotti & Crook, 2013) | The case for modelling *when* customers default, not only *whether* | A discrete-time hazard model fits our monthly data best. A Cox model adds little with only 4 time points, so we did not build one. |
-| 05 | Botha & Muller (2025) code, adapted | A working discrete-time hazard model in R | Their code needed our data put into their structure and their defaults changed (e.g. default weight 10 mis-calibrates our data). |
+| Notebook | What it gave us | What we found |
+|---|---|---|
+| 01 | The data and its documentation | The file differs from its documentation in 5 places (e.g. undocumented `PAY_*` codes -2 and 0, which behave as "not behind"). Cleaning came first. |
+| 02 | A published benchmark for six classifiers | The logistic regression reproduces the paper's ranking (area ratio 0.44, mean of 20 splits) but its probabilities are S-shaped, which the paper's straight-line summary hides. |
+| 03 | Runnable code to fix probabilities | Isotonic calibration fixes the logistic regression's probabilities without changing its ranking. Sigmoid does not, and we could not reproduce the paper's naive Bayes. |
+| 04 | The case for modelling *when* customers default, not only *whether* | A discrete-time hazard model fits our monthly data best. A Cox model adds little with only 4 time points, so we did not build one. |
+| 05 | A working discrete-time hazard model in R | Their code needed our data put into their structure and their defaults changed (e.g. default weight 10 mis-calibrates our data). |
 
 ## Themes
 
