@@ -23,8 +23,12 @@ so the survival event is a proxy built from repayment status (04). The Taiwan
 file is also from 2005 and a single dataset, so conclusions may not carry to other
 lenders. This data limit leads to complications of overfitting etc such that in 
 the future we will test various different models with various parameters to try 
-and optimise our model
+and optimise our model. This data limitation has a large affect on the Markov model. 
+A Markov model assumes the next state depends only on 
+the current one, so a customer's earlier history is ignored. With only six monthly
+states per customer there is also little data to estimate how rare moves, such as
+going straight from on time to defaulted, really behave.
 
 ## Outcome
 
-From our initial research, with the data that we have chosen to use, logistic regression and survival modelling seem to be the most appropriate models. Data processing will be something that we have to do before any modelling step and is covered by Oscar. 
+Overall, no single approach was best, as each answered a different question. The logistic regression was good at ranking customers from riskiest to safest, but the probabilities it gave were not reliable, and calibrating them fixed this without changing the ranking. The Markov chain showed how customers move between repayment states from month to month, [add Louis's main finding, e.g. how often customers who fall one month behind go on to default]. The hazard model predicted when a customer is likely to default and it was interesting to see how this compared to the other two approaches.
