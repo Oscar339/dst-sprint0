@@ -10,7 +10,7 @@ We considered various approaches to modelling probability of default. Firstly, w
 | 03 | Calibration fixes the logistic regression's probabilities without changing its ranking. |
 | 04 | Because our data is monthly, a discrete-time hazard model is the natural fit.|
 | 05 | The imported code needed our data put into their structure and their default weight changed from 10 to 1. The model gives P(default by October) for customers with no default by June. |
-| 08 | Research and application of a Markov model to estimate probability of default. |
+| 06 | Research and application of a Markov model to estimate probability of default. |
 
 ## What the resources tell us
 
